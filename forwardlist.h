@@ -2,6 +2,10 @@
 #define FORWARDLIST_H
 
 #include <memory>
+#include <iterator>
+
+template<typename ValueType>
+class ForwardList_iterator;
 
 template <typename T>
 class ForwardList {
@@ -11,6 +15,7 @@ public:
     using reference = T &;
     using const_reference = const T &;
     using pointer = T *;
+	using iterator = ForwardList_iterator<T>;
 // Other
 public:
     ForwardList(): link_{nullptr}, size_{0} {}
@@ -45,6 +50,19 @@ public:
     [[nodiscard]] bool        empty() const noexcept { return link_ == nullptr; }
     [[nodiscard]] std::size_t size()  const noexcept { return size_; }
 
+	[[nodiscard]] iterator begin() {
+		return iterator(link_);
+	}
+
+	[[nodiscard]] iterator end() {
+		Link end = nullptr;
+		for (auto i = link_; i != nullptr; i = i.next_) {
+			end = i;
+		}
+
+		return iterator(end);
+	}
+
 private:
     struct Node {
         T data_{};
@@ -62,5 +80,33 @@ private:
 
     Link link_;
     std::size_t size_{};
+};
+
+template<typename ValueType>
+class ForwardList_iterator : public std::iterator<std::input_iterator_tag, ValueType>
+{
+	template <typename T>
+	friend class ForwardList;
+private:
+	ForwardList_iterator(ValueType* p) : p(p) {}
+public:
+	ForwardList_iterator(const ForwardList_iterator& it) : p(it.p) {}
+
+	bool operator!=(ForwardList_iterator const& other) const {
+		return p != other.p;
+	}
+
+	bool operator==(ForwardList_iterator const& other) const {
+		return p == other.p;
+	}
+	typename ForwardList_iterator::reference operator*() const {
+		return *p;
+	}
+	ForwardList_iterator& operator++() {
+		++p;
+		return *this;
+	}
+private:
+	ValueType* p;
 };
 #endif // FORWARDLIST_H

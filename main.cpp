@@ -7,14 +7,13 @@
 
 int main() {
     {
-        ForwardList<int> l = {1};
+        ForwardList<int> l = {1,2,3,4,5,6};
 
-        l.top();
+        int a = l.top();
 
-//        std::vector<int> a(1, 2, 3);
-//        std::vector<int> c = {1, 3};
+		auto it = l.begin();
 
-//        std::cout << "a: " << a.size() << "\n c: " << c.size() << std::endl;
+        std::cout << a << std::endl;
     }
 
     std::cout << "end" << std::endl;
