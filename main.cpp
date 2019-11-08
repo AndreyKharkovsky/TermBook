@@ -1,19 +1,19 @@
 #include <iostream>
-#include <vector>
-//#include <algorithm>
-//#include <iterator>
+#include <algorithm>
 
 #include "forwardlist.h"
 
 int main() {
     {
-        ForwardList<int> l = {1,2,3,4,5,6};
+        ForwardList<int> l = {1,2,3,4};
 
-        int a = l.top();
+        ForwardList<int>::ForwardList_iterator it = l.begin();
 
-		auto it = l.begin();
+        for (auto it = l.begin(); it != l.end(); ++it) {
+            std::cout << *it << std::endl;
+        }
 
-        std::cout << a << std::endl;
+        std::cout << std::distance(l.begin(), l.end()) << std::endl;
     }
 
     std::cout << "end" << std::endl;
